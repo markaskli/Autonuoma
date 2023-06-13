@@ -1,0 +1,134 @@
+﻿@model Org.Ktu.Isk.P175B602.Autonuoma.Models.Sutartis.SutartisCE
+
+@* this will also be used as page title in main layout *@
+@{ ViewData["title"] = "Sutarties redagavimas"; }
+
+@* content header *@
+<div class="main-content-header">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
+
+@* content itself *@
+<div class="main-content-ced">
+	@using (Html.BeginForm(FormMethod.Post, new { @class = "entity-ce" }))
+	{
+		@Html.AntiForgeryToken()
+
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+		@* add hidden form fields for non-visible properties, otherwise they will get lost in code that handles button
+	presses *@
+		@Html.HiddenFor(m => m.Sutartis.Nr)
+
+		<fieldset>
+			<legend class="text-center">Sutartis</legend>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.Data)
+				@Html.TextBoxFor(m => m.Sutartis.Data, "{0:yyyy-MM-dd}", new { @class = "date-picker" })
+				@Html.ValidationMessageFor(m => m.Sutartis.Data, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.PradziosData)
+				@Html.TextBoxFor(m => m.Sutartis.PradziosData, "{0:yyyy-MM-dd hh:mm}", new { @class = "datetime-picker" })
+				@Html.ValidationMessageFor(m => m.Sutartis.PradziosData, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.PabaigosData)
+				@Html.TextBoxFor(m => m.Sutartis.PabaigosData, "{0:yyyy-MM-dd hh:mm}", new { @class = "datetime-picker" })
+				@Html.ValidationMessageFor(m => m.Sutartis.PabaigosData, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.Kaina)
+				@Html.EditorFor(m => m.Sutartis.Kaina)
+				@Html.ValidationMessageFor(m => m.Sutartis.Kaina, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.Busena)
+				@Html.DropDownListFor(m => m.Sutartis.Busena, Model.Lists.Busenos, (string)ViewData["none-chosen"])
+				@Html.ValidationMessageFor(m => m.Sutartis.Busena, "")
+			</div>
+
+			<div class="form-group" formaction="@Url.Action()#listEnd" formvalidate @*ASP.NET Core magic attribute to prevent client side validation when submit button is clicked*@>
+				@Html.LabelFor(m => m.Sutartis.FkFilialas)
+				@Html.DropDownListFor(m => m.Sutartis.FkFilialas, Model.Lists.Filialai, (string)ViewData["none-chosen"], new {@onchange="this.form.submit()"})
+				@Html.ValidationMessageFor(m => m.Sutartis.FkFilialas, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.FkDarbuotojas)
+				@Html.DropDownListFor(m => m.Sutartis.FkDarbuotojas, Model.Lists.Darbuotojai,
+			(string)ViewData["none-chosen"])
+				@Html.ValidationMessageFor(m => m.Sutartis.FkDarbuotojas, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.FkInstruktorius)
+				@Html.DropDownListFor(m => m.Sutartis.FkInstruktorius, Model.Lists.Instruktoriai,
+			(string)ViewData["none-chosen"])
+				@Html.ValidationMessageFor(m => m.Sutartis.FkInstruktorius, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.FkKlientas)
+				@Html.DropDownListFor(m => m.Sutartis.FkKlientas, Model.Lists.Klientai, (string)ViewData["none-chosen"])
+				@Html.ValidationMessageFor(m => m.Sutartis.FkKlientas, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.FkPaslauga)
+				@Html.DropDownListFor(m => m.Sutartis.FkPaslauga, Model.Lists.Paslaugos, (string)ViewData["none-chosen"])
+				@Html.ValidationMessageFor(m => m.Sutartis.FkPaslauga, "")
+			</div>
+		</fieldset>
+
+		<fieldset>
+			<legend class="text-center">Automobilis</legend>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.FkAutomobilis)
+				@Html.DropDownListFor(m => m.Sutartis.FkAutomobilis, Model.Lists.Automobiliai,
+			(string)ViewData["none-chosen"])
+				@Html.ValidationMessageFor(m => m.Sutartis.FkAutomobilis, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.PradineRida)
+				@Html.EditorFor(m => m.Sutartis.PradineRida)
+				@Html.ValidationMessageFor(m => m.Sutartis.PradineRida, "")
+			</div>
+
+			<div class="form-group">
+				@Html.LabelFor(m => m.Sutartis.GalineRida)
+				@Html.EditorFor(m => m.Sutartis.GalineRida)
+				@Html.ValidationMessageFor(m => m.Sutartis.GalineRida, "")
+			</div>
+		</fieldset>
+
+		<div class="container-fluid d-flex d-row justify-content-end">
+			<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Išsaugoti</button>
+		</div>
+	}
+</div>
+
+@* content footer *@
+<div class="main-content-footer">
+	<span class="title"></span>
+	<span class="actions">
+		<a href="@Url.Action("Index")" class="btn btn-outline-primary btn-sm">
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>

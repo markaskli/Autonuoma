@@ -1,0 +1,71 @@
+﻿@model Org.Ktu.Isk.P175B602.Autonuoma.Models.SaskaitaCE
+
+@* this will also be used as page title in main layout *@
+@{ ViewData["title"] = "Sąskaitos sukūrimas"; }
+
+@* content header *@
+<div class="main-content-header">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
+
+@* content itself *@
+<div class="main-content-ced">
+@using( Html.BeginForm(FormMethod.Post, new { @class="entity-ce" }) )
+{
+	@Html.AntiForgeryToken()
+	
+	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+	<fieldset>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Model.Nr)
+			@Html.EditorFor(m => m.Model.Nr)
+			@Html.ValidationMessageFor(m => m.Model.Nr, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Model.Data)
+			@Html.TextBoxFor(m => m.Model.Data, "{0:yyyy-MM-dd}", new { @class = "date-picker" })
+			@Html.ValidationMessageFor(m => m.Model.Data, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Model.Suma)
+			@Html.EditorFor(m => m.Model.Suma)
+			@Html.ValidationMessageFor(m => m.Model.Suma, "")
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(m => m.Model.FkSutartis)
+			@Html.DropDownListFor(m =>m.Model.FkSutartis, Model.Lists.Sutartys, (string)ViewData["none-chosen"])
+			@Html.ValidationMessageFor(m => m.Model.FkSutartis, "")
+		</div>
+
+	</fieldset>
+
+	<div class="container-fluid d-flex d-row justify-content-end">
+		<button name="save" value="1" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i> Išsaugoti</button>
+	</div>
+}
+</div>
+
+@* content footer *@
+<div class="main-content-footer">
+	<span class="title"></span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>

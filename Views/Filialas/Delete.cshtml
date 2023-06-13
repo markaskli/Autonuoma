@@ -1,0 +1,74 @@
+﻿@model Org.Ktu.Isk.P175B602.Autonuoma.Models.FilialasCE
+
+@* this will also be used as page title in main layout *@
+@{ ViewData["title"] = "Filialo šalinimas"; }
+
+@* content header *@
+<div class="main-content-header">
+	<span class="title">@ViewData["title"]</span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
+
+@* content itself *@
+<div class="main-content-ced">
+@using( Html.BeginForm(FormMethod.Post, new { @class="entity-d" }) )
+{
+	@Html.AntiForgeryToken()
+
+	<fieldset>
+		<legend class="confirm-msg">Ar tikrai norite šalinti šį filialą?</legend>
+
+		<dl>
+			<dt>@Html.DisplayNameFor(m => m.Model.Id)</dt>
+			<dd>@Html.DisplayFor(m => m.Model.Id)</dd>
+			
+			<dt>@Html.DisplayNameFor(m => m.Model.Adresas)</dt>
+			<dd>@Html.DisplayFor(m => m.Model.Adresas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Model.ElPastas)</dt>
+			<dd>@Html.DisplayFor(m => m.Model.ElPastas)</dd>
+
+			<dt>@Html.DisplayNameFor(m => m.Model.FkVairavimoMokykla)</dt>
+			<dd>@Html.DisplayFor(m => m.Model.FkVairavimoMokykla)</dd>
+		</dl>
+
+		@if( ViewData["deletionNotPermitted"] != null )
+		{
+			<div class="fail-msg">
+				<i class="fa-solid fa-circle-exclamation"></i> Šio filialo pašalinti negalima, nes 
+				jis turi ryšių į priklausomas esybes.
+			</div>
+		}
+		else
+		{
+			<div class="buttons">
+				<button
+					formaction="@Url.Action("DeleteConfirm", new {id = Model.Model.Id})"
+					class="btn btn-danger"
+					style="white-space: nowrap;"
+				><i class="fa-solid fa-trash"></i> Šalinti</button>
+			</div>			
+		}
+	</fieldset>
+}
+</div>
+
+@* content footer *@
+<div class="main-content-footer">
+	<span class="title"></span>
+	<span class="actions">
+		<a 
+			href="@Url.Action("Index")" 
+			class="btn btn-outline-primary btn-sm"
+		>
+			<i class="fa-solid fa-angles-left"></i> Atgal į sarašą
+		</a>
+	</span>
+</div>
